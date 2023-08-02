@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% load static %} {% block body %}
+
+<div class="row d-flex justify-content-center align-items-start">
+  <div class="col-8">
+    <form
+      action=""
+      method="POST"
+      class="book-add-form card text-white bg-light d-flex flex-column align-items-center p-3"
+    >
+      <h3>Add a new book</h3>
+      {% csrf_token %} {{ book_form.as_p}}
+      <button class="btn btn-success">Submit</button>
+    </form>
+  </div>
+
+  <div class="col-11 col-md-8 d-lg-flex justify-content-between">
+    <h3 class="text-left mb-0">Book List</h3>
+    <form class="ms-3 p-2" role="search">
+      <label for="search-book">Search for a book</label>
+      <input
+        id="search-book"
+        class="form-control form-control-dark me-2 book-search"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+      />
+    </form>
+  </div>
+
+  <div
+    class="col-11 col-md-8 book-list mt-3 d-flex flex-column align-items-center"
+  ></div>
+
+  <!-- Modal container (should be placed at the end of the body) -->
+  <div class="modal-container flip-in">
+    <div class="modal">
+      <h3>Update Book</h3>
+      <form id="updateForm">
+        <label for="updateTitle">Title:</label>
+        <input type="text" id="updateTitle" name="title" required />
+
+        <label for="updateAuthor">Author:</label>
+        <input type="text" id="updateAuthor" name="author" required />
+        <label for="updateGenre">Genre:</label>
+        <select id="updateGenre" name="genre" required>
+          {% for choice in genres %}
+          <option value="{{ choice.0 }}">{{ choice.0 }}</option>
+          {% endfor %}
+        </select>
+        I
+        <label for="updateTitle">ISBN:</label>
+        <input type="text" id="updateISBN" name="isbn" required />
+
+        <button class="btn btn-success" type="submit">Update Book</button>
+      </form>
+      <button class="close-modal btn btn-success">Close</button>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/books.js' %}"></script>
+{% endblock %}

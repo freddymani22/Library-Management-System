@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block body %}
+<div class="row d-flex justify-content-center">
+  <div class="col-8 col-md-5">
+    <h3>Add a new Member</h3>
+    <form action="" method="POST" class="d-flex flex-column align-items-center">
+      {% csrf_token %} {{form }}
+      <button class="mt-2">Submit</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

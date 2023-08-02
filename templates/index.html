@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% load static %} {% block body %}
+
+<div class="row mt-4 d-flex justify-content-center chart-data">
+  <div class="col-10 col-lg-8">
+    <div>
+      <h4 class="text-center">Dashboard</h4>
+    </div>
+    <div class="table-responsive">
+      <form>
+        {% csrf_token %}
+        <table
+          id="table"
+          class="table table-sm table-bordered table-striped table-light"
+        >
+          <thead class="table-head">
+            <tr class="bg-primary text-danger table-header">
+              <th>Book-detail</th>
+              <th>Availabity</th>
+              <th>Borrow Detail</th>
+              <th>Return</th>
+            </tr>
+          </thead>
+          {% csrf_token %}
+          <tbody class="table-body"></tbody>
+        </table>
+      </form>
+    </div>
+  </div>
+
+  <script src="{% static 'js/index.js' %}"></script>
+  {% endblock body %}
+</div>
