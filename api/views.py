@@ -19,7 +19,7 @@ class MemberListAPIView(generics.ListCreateAPIView):
     serializer_class = MemberSerializer
 
 
-class MemberRetrieveUpdateDestroyAPIView(generics.RetrieveDestroyAPIView):
+class MemberRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
 
@@ -41,8 +41,20 @@ class BookSearchApiView(generics.ListAPIView):
     def get_queryset(self):
         qs = super().get_queryset()
         q = self.request.GET.get('q')
-        print(q)
         results = Book.objects.none()
         if q is not None:
             return Book.objects.search(query=q)
+        return results
+
+
+class MemberSearchApiView(generics.ListAPIView):
+    queryset = Member.objects.all()
+    serializer_class = MemberSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        q = self.request.GET.get('q')
+        results = Member.objects.none()
+        if q is not None:
+            return Member.objects.search(query=q)
         return results

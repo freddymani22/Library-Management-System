@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import (BookListAPIView, BookRetrieveUpdateDestroyAPIView,
+from .views import (BookListAPIView, BookRetrieveUpdateDestroyAPIView, MemberSearchApiView,
                     MemberListAPIView, MemberRetrieveUpdateDestroyAPIView, BookStatusUpdateAPIView, BookStatusListCreateAPIView, BookSearchApiView)
 
 
@@ -9,8 +9,10 @@ urlpatterns = [
     path('book-list/<int:pk>/',
          BookRetrieveUpdateDestroyAPIView.as_view(), name='book-rud'),
     path('book-search/', BookSearchApiView.as_view(), name='book-search'),
+    path('member-search/', MemberSearchApiView.as_view(), name='member-search'),
     path('member-list/', MemberListAPIView.as_view(), name='member-list'),
-    path('member-rud/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='member-rud'),
+    path('member-rud/<int:pk>/',
+         MemberRetrieveUpdateDestroyAPIView.as_view(), name='member-rud'),
     path('book-status/', BookStatusListCreateAPIView.as_view(),
          name='book-status-listcreate'),
     path('book-status/<int:pk>/', BookStatusUpdateAPIView.as_view(),

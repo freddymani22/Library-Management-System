@@ -9,6 +9,9 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
+class BookStatusAdmin(admin.ModelAdmin):
+    list_display = ['id', 'returned']
+    search_fields = ['title']
 # class BorrwedBookAdmin(admin.ModelAdmin):
 #     list_display = ['book', 'member']
 #     search_fields = ['book', 'member']
@@ -19,4 +22,4 @@ admin.site.register(Book, BookAdmin)
 admin.site.register(Member)
 # admin.site.register(BorrowedBook, BorrwedBookAdmin)
 # admin.site.register(ReturnedBook)
-admin.site.register(BookStatus)
+admin.site.register(BookStatus, BookStatusAdmin)

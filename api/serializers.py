@@ -4,9 +4,21 @@ from books.models import Book, Member, BookStatus
 
 
 class MemberSerializer(serializers.ModelSerializer):
+    latest_book = serializers.SerializerMethodField()
+
     class Meta:
         model = Member
-        fields = '__all__'
+        fields = ['id', 'member', 'email', 'latest_book']
+
+    def get_latest_book(self, obj):
+
+        book_last = BookStatus.objects.filter(
+            member=obj.id).filter(returned=False).count()
+        if book_last:
+            return book_last
+            print(book_last.book.id)
+            return Book.objects.get(id=book_last.book.id).title
+        return None
 
 
 class BookStatusSerializer(serializers.ModelSerializer):

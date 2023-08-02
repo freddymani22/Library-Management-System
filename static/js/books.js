@@ -17,7 +17,7 @@ async function updateBookList() {
       bookContainer.innerHTML = `
       <div class="book-container card text-white bg-primary text-center d-flex justify-content-around">
             <div class="book-details-container">
-              <h3 class="book-title text-center badge rounded-pill bg-secondary">${
+              <h3 class="book-title text-center h3 badge rounded-pill bg-secondary">${
                 book.title
               }</h3>
               <p class="book-details">Author: ${book.author}</p>
@@ -36,7 +36,9 @@ async function updateBookList() {
               }</p>
               <p class="book-details">ISBN:${book.isbn}</p>
               <button class='update-book btn btn-secondary'>Update</button>
-              <button class='delete-book btn btn-danger'>Delete</button>
+              <button id=${
+                book.id
+              } class='delete-book btn btn-danger'>Delete</button>
             </div>
           </div>
         `;
@@ -53,6 +55,21 @@ async function updateBookList() {
       const updateAuthorInput = document.getElementById("updateAuthor");
       const updateGenreInput = document.getElementById("updateGenre");
       const updateISBNInput = document.getElementById("updateISBN");
+
+      const deleteBookButtons = document.querySelectorAll(".btn-danger");
+
+      deleteBookButtons.forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const deleteId = btn.id;
+          console.log(deleteId);
+          await deleteMember(deleteId);
+          updateBookList();
+        });
+      });
+
+      async function deleteMember(deleteId) {
+        await axios.delete(`http://localhost:8000/api/book-list/${deleteId}/`);
+      }
 
       // Function to populate the modal form with book data
       function populateFormWithData(book) {
@@ -138,21 +155,20 @@ const bookAddForm = document.querySelector(".book-add-form");
 
 bookAddForm.addEventListener("submit", async function (event) {
   event.preventDefault();
-
   const title = document.querySelector('input[name="title"]').value;
   const author = document.querySelector('input[name="author"]').value;
   const genre = document.querySelector('select[name="genre"]').value;
   const isbn = document.querySelector('input[name="isbn"]').value;
-  const availabilityStatus = document.querySelector(
-    'input[name="availability_status"]'
-  ).checked;
-
+  document.querySelector('input[name="isbn"]').value = "";
+  document.querySelector('input[name="title"]').value = "";
+  document.querySelector('input[name="author"]').value = "";
+  document.querySelector('select[name="genre"]').value = "";
+  document.querySelector('input[name="isbn"]').value = "";
   const formData = {
     title,
     author,
     genre,
     isbn,
-    availability_status: availabilityStatus,
   };
   await axios.post("http://localhost:8000/api/book-list/", formData);
   updateBookList();

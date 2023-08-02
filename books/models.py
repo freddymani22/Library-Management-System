@@ -60,9 +60,24 @@ class Book(models.Model):
         return self.title
 
 
+class MemberQuerySet(models.QuerySet):
+    def search(self, query):
+        lookup = Q(member__icontains=query)
+        return self.filter(lookup)
+
+
+class MemberCustomManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        return MemberQuerySet(self.model, using=self._db)
+
+    def search(self, query):
+        return self.get_queryset().search(query)
+
+
 class Member(models.Model):
     member = models.CharField(max_length=100, unique=True)
     email = models.EmailField()
+    objects = MemberCustomManager()
 
     def __str__(self):
         return self.member
@@ -72,42 +87,7 @@ class BookStatus(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     borrowed_date = models.DateField(auto_now_add=True)
-    returned = models.BooleanField()
-
-
-# class BorrowedBook(models.Model):
-#     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-#     member = models.ForeignKey(Member, on_delete=models.CASCADE)
-#     borrowed_date = models.DateField(null=True, blank=True, auto_now_add=True)
-
-#     def __str__(self):
-#         return f'{self.book}-{self.member}-{self.borrowed_date}'
-
-
-# class ReturnedBook(models.Model):
-#     book_detail = models.ForeignKey(BorrowedBook, on_delete=models.CASCADE)
-#     returned_date = models.DateField(null=True, blank=True)
-
-
-# def book_borrowed_update_availability_status(instance, *args, **kwargs):
-#     book_obj = Book.objects.get(id=instance.book.id)
-#     book_obj.availability_status = False
-#     book_obj.save()
-#     print(instance.book.availability_status)
-
-
-# pre_save.connect(book_borrowed_update_availability_status, sender=BorrowedBook)
-
-
-# def book_returned_update_availability_status(instance, *args, **kwargs):
-#     print(instance.__dict__)
-#     book_obj = Book.objects.get(id=BorrowedBook.objects.get(
-#         id=instance.book_detail_id).book.id)
-#     book_obj.availability_status = True
-#     book_obj.save()
-
-
-# pre_save.connect(book_returned_update_availability_status, sender=ReturnedBook)
+    returned = models.BooleanField(default=False)
 
 
 def book_status_update(instance, *args, **kwargs):
@@ -115,7 +95,7 @@ def book_status_update(instance, *args, **kwargs):
         book_obj = Book.objects.get(id=instance.book.id)
         book_obj.availability_status = False
         book_obj.save()
-        print(instance.book.availability_status)
+        print(instance.book.availability_status, 'dfghh')
     else:
         book_obj = Book.objects.get(id=instance.book.id)
         book_obj.availability_status = True

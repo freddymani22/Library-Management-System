@@ -1,12 +1,52 @@
-{% extends 'base.html' %} {% block body %}
+{% extends 'base.html' %} {% load static %} {% block body %}
 <div class="row d-flex justify-content-center">
   <div class="col-8 col-md-5">
     <h3>Add a new Member</h3>
-    <form action="" method="POST" class="d-flex flex-column align-items-center">
+    <form
+      action=""
+      method="POST"
+      class="d-flex member-add-form flex-column align-items-center"
+    >
       {% csrf_token %} {{form }}
       <button class="mt-2">Submit</button>
     </form>
   </div>
+
+  <div class="col-11 col-md-8 d-lg-flex justify-content-between">
+    <h3 class="text-left mb-0">Book List</h3>
+    <form class="ms-3 p-2" role="search">
+      <label for="search-member">Search for a Member</label>
+      <input
+        id="search-member"
+        class="form-control form-control-dark me-2 member-search"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+      />
+    </form>
+  </div>
+
+  <div
+    class="col-11 col-md-8 member-list mt-3 d-flex flex-column align-items-center"
+  ></div>
+
+  <!-- Modal container (should be placed at the end of the body) -->
+  <div class="modal-container flip-in">
+    <div class="modal">
+      <h3>Update Book</h3>
+      <form id="updateForm">
+        <label for="updateName">Name:</label>
+        <input type="text" id="updateName" name="name" required />
+
+        <label for="updateEmail">Email:</label>
+        <input type="text" id="updateEmail" name="email" required />
+
+        <button class="btn btn-success" type="submit">Update Book</button>
+      </form>
+      <button class="close-modal btn btn-success">Close</button>
+    </div>
+  </div>
 </div>
+<script src="{% static 'js/members.js' %}"></script>
 
 {% endblock %}

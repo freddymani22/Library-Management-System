@@ -5,7 +5,8 @@ body {
   font-family: monospace;
 }
 
-.book-container {
+.book-container,
+.member-container {
   display: flex;
   justify-content: space-between;
   border: 1px solid #ccc;
@@ -16,17 +17,20 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.book-details-container {
+.book-details-container,
+.member-details-container {
   flex: 1;
 }
 
-.book-title {
-  font-size: 1.2rem;
+.book-title,
+.member-title {
+  font-size: 1.2em;
   margin-bottom: 8px;
   text-transform: uppercase;
 }
 
-.book-details {
+.book-details,
+.member-details {
   margin-bottom: 4px;
 }
 
@@ -84,4 +88,18 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+/* Custom CSS for reducing font size of h3 element in medium screen size (col-md) */
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .book-title {
+    font-size: 1rem; /* Set your desired font size for medium screens (col-md) */
+  }
+}
+
+.table-responsive,
+.book-list {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto; /* Enable vertical scroll bar when table content overflows */
 }
