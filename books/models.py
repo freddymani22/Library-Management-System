@@ -79,12 +79,26 @@ class MemberCustomManager(models.Manager):
 
 
 class Member(models.Model):
-    member = models.CharField(max_length=100, unique=True)
+    member = models.CharField(max_length=100)
     email = models.EmailField()
     objects = MemberCustomManager()
 
     def __str__(self):
         return self.member
+
+    def delete(self, *args, **kwargs):
+        # Get all the BookStatus instances associated with the current member
+        book_statuses = BookStatus.objects.filter(member=self)
+        print(book_statuses)
+        if book_statuses.exists():
+            for book_status in book_statuses:
+                if not book_status.returned:
+                    obj = Book.objects.get(title=book_status.book)
+                    obj.availability_status = True
+                    obj.save()
+
+        # Call the parent class delete method to perform the actual deletion
+        super(Member, self).delete(*args, **kwargs)
 
 
 class BookStatus(models.Model):

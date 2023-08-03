@@ -23,6 +23,7 @@ async function updateBookList() {
               <p class="book-details">ID: ${book.id}</p>
               <p class="book-details">Author: ${book.author}</p>
               <p class="book-details">Genre: ${book.genre}</p>
+              <p class="book-details">Genre: ${book.published_year}</p>
               <p class="book-details">ISBN:${book.isbn}</p>
              
             </div>
@@ -233,6 +234,7 @@ bookSearch.addEventListener("keyup", (e) => {
       const updateAuthorInput = document.getElementById("updateAuthor");
       const updateGenreInput = document.getElementById("updateGenre");
       const updateISBNInput = document.getElementById("updateISBN");
+      const updateYearInput = document.getElementById("updateYear");
 
       const deleteBookButtons = document.querySelectorAll(".btn-danger");
 

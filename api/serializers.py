@@ -29,7 +29,8 @@ class BookStatusSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BookStatus
-        fields = ['id', 'book', 'member', 'returned', 'borrowed_member']
+        fields = ['id', 'book', 'member', 'returned',
+                  'borrowed_member']
 
     def get_borrowed_member(self, obj):
         member_borrowed = obj.member

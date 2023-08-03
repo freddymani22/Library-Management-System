@@ -98,7 +98,11 @@ button {
   }
 }
 
-ul,
-li {
-  list-style: none;
+.bullet-list li::before {
+  content: "-";
+  margin-right: 5px;
+}
+
+ul {
+  list-style-position: inside;
 }
