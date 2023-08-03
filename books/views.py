@@ -2,11 +2,11 @@ from django.shortcuts import render
 
 # Create your views here.
 from .forms import BookCreationForm, MemberCreationForm
-from .models import Book
-from .models import Genre
+from .models import Book, Genre
 
 
 def index(request):
+    books_qs = Book.objects.all()
 
     return render(request, 'index.html', )
 

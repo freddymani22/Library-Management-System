@@ -97,3 +97,8 @@ button {
     font-size: 0.5rem; /* Set your desired font size for medium screens (col-md) */
   }
 }
+
+ul,
+li {
+  list-style: none;
+}

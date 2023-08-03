@@ -16,24 +16,28 @@ async function updateMembersList() {
       memberContainer.classList.add("col-10");
       memberContainer.innerHTML = `
       <div class="member-container card text-white bg-primary text-center d-flex justify-content-around">
-            <div class="member-details-container">
-              <h3 class="member-title text-center badge rounded-pill bg-secondary">${
-                member.member
-              }</h3>
-              <p class="member-details">ID: ${member.id}</p>
-              <p class="member-details">Email: ${member.email}</p>
-              <p class="member-details">Borrowed/Not-returned: ${
-                member.latest_book != null ? member.latest_book : "none"
-              }</p>
-              <div class="member-details-container second-col-book-detail">
-             
-            </div>
-              <button class='update-member btn btn-secondary'>Update</button>
-              <button class='delete-member btn btn-danger' id=${
-                member.id
-              }>Delete</button>
-            </div>
-          </div>
+  <div class="member-details-container">
+    <h3 class="member-title text-center badge rounded-pill bg-secondary">${
+      member.member
+    }</h3>
+    <p class="member-details">ID: ${member.id}</p>
+    <p class="member-details">Email: ${member.email}</p>
+    <div class="member-details-container second-col-book-detail">
+      <h4>Borrowed Books:</h4>
+      <ol>
+        ${
+          member.borrowed_book_list != null
+            ? member.borrowed_book_list
+                .map((book) => `<li>${book}</li>`)
+                .join("")
+            : "<li>No books borrowed.</li>"
+        }
+      </ol>
+    </div>
+    <button class='update-member btn btn-secondary'>Update</button>
+    <button class='delete-member btn btn-danger' id=${member.id}>Delete</button>
+  </div>
+</div>
         `;
 
       // Append the book container to the book list container
@@ -172,17 +176,30 @@ memberSearch.addEventListener("keyup", (e) => {
       memberContainer.classList.add("col-10");
       memberContainer.innerHTML = `
       <div class="member-container card text-white bg-primary text-center d-flex justify-content-around">
-            <div class="member-details-container">
-              <h3 class="member-title text-center badge rounded-pill bg-secondary">${member.member}</h3>
-              <p class="member-details">ID: ${member.id}</p>
-              <p class="member-details">Email: ${member.email}</p>
-              <div class="member-details-container second-col-book-detail">
-             
-            </div>
-              <button class='update-member btn btn-secondary'>Update</button>
-              <button class='delete-member btn btn-danger' id=${member.id}>Delete</button>
-            </div>
-          </div>
+      <div class="member-details-container">
+        <h3 class="member-title text-center badge rounded-pill bg-secondary">${
+          member.member
+        }</h3>
+        <p class="member-details">ID: ${member.id}</p>
+        <p class="member-details">Email: ${member.email}</p>
+        <div class="member-details-container second-col-book-detail">
+          <h4>Borrowed Books:</h4>
+          <ol class="list-unstyled">
+            ${
+              member.borrowed_book_list != null
+                ? member.borrowed_book_list
+                    .map((book) => `<li>${book}</li>`)
+                    .join("")
+                : "<li>No books borrowed.</li>"
+            }
+          </ol>
+        </div>
+        <button class='update-member btn btn-secondary'>Update</button>
+        <button class='delete-member btn btn-danger' id=${
+          member.id
+        }>Delete</button>
+      </div>
+    </div>
         `;
 
       // Append the book container to the book list container

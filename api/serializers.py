@@ -4,19 +4,23 @@ from books.models import Book, Member, BookStatus
 
 
 class MemberSerializer(serializers.ModelSerializer):
-    latest_book = serializers.SerializerMethodField()
+    borrowed_book_list = serializers.SerializerMethodField()
 
     class Meta:
         model = Member
-        fields = ['id', 'member', 'email', 'latest_book']
+        fields = ['id', 'member', 'email', 'borrowed_book_list']
 
-    def get_latest_book(self, obj):
+    def get_borrowed_book_list(self, obj):
         book_last = BookStatus.objects.filter(
-            member=obj.id).filter(returned=False).count()
+            member=obj.id).filter(returned=False).all()
+        book_borrowed_pks = book_last.values_list('book_id', flat=True)
+        books_qs = Book.objects.filter(pk__in=book_borrowed_pks)
+        title_list = [book.title for book in books_qs
+                      ]
+
         if book_last:
-            return book_last
-            print(book_last.book.id)
-            return Book.objects.get(id=book_last.book.id).title
+            return title_list
+
         return None
 
 
