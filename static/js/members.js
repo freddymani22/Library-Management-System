@@ -103,7 +103,6 @@ async function updateMembersList() {
             const updatedName = updateNameInput.value;
             const updatedEmail = updateEmailInput.value;
             // Get other form input values as needed
-
             try {
               // Send a PUT request to update the book data
               await axios.patch(
@@ -121,7 +120,7 @@ async function updateMembersList() {
               modal.style.display = "none";
 
               // Update the book list to reflect the changes
-              updateMembersList();
+              location.reload();
             } catch (error) {
               console.error("Error updating book:", error);
             }
@@ -283,7 +282,7 @@ memberSearch.addEventListener("keyup", (e) => {
               modal.style.display = "none";
 
               // Update the book list to reflect the changes
-              updateMembersList();
+              location.reload();
             } catch (error) {
               console.error("Error updating book:", error);
             }

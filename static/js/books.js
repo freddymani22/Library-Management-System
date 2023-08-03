@@ -65,7 +65,7 @@ async function updateBookList() {
           const deleteId = btn.id;
           console.log(deleteId);
           await deleteMember(deleteId);
-          updateBookList();
+          location.reload();
         });
       });
 
@@ -136,7 +136,7 @@ async function updateBookList() {
               modal.style.display = "none";
 
               // Update the book list to reflect the changes
-              updateBookList();
+              location.reload();
             } catch (error) {
               console.error("Error updating book:", error);
             }
@@ -173,7 +173,7 @@ bookAddForm.addEventListener("submit", async function (event) {
     isbn,
   };
   await axios.post("http://localhost:8000/api/book-list/", formData);
-  updateBookList();
+  location.reload();
 });
 
 // search for the book
@@ -243,7 +243,7 @@ bookSearch.addEventListener("keyup", (e) => {
           const deleteId = btn.id;
           console.log(deleteId);
           await deleteMember(deleteId);
-          updateBookList();
+          location.reload();
         });
       });
 
@@ -312,7 +312,7 @@ bookSearch.addEventListener("keyup", (e) => {
               // If the update was successful, hide the modal
               modalContainer.style.display = "none";
               modal.style.display = "none";
-              searchBook();
+              location.reload();
               // Update the book list to reflect the changes
             } catch (error) {
               console.error("Error updating book:", error);
