@@ -20,6 +20,7 @@ async function updateBookList() {
               <h3 class="book-title text-center h3 badge rounded-pill bg-secondary">${
                 book.title
               }</h3>
+              <p class="book-details">ID: ${book.id}</p>
               <p class="book-details">Author: ${book.author}</p>
               <p class="book-details">Genre: ${book.genre}</p>
               <p class="book-details">ISBN:${book.isbn}</p>
@@ -196,29 +197,31 @@ bookSearch.addEventListener("keyup", (e) => {
       bookContainer.classList.add("col-10");
       bookContainer.innerHTML = `
       <div class="book-container card text-white bg-primary text-center d-flex justify-content-around">
-        <div class="book-details-container ">
-          <h3 class="book-title text-center badge rounded-pill bg-secondary">${
-            book.title
-          }</h3>
-          <p class="book-details">Author: ${book.author}</p>
-          <p class="book-details">Genre: ${book.genre}</p>
-          <p class="book-details">ISBN:${book.isbn}</p>
-          <button class='update-book btn btn-secondary'>Update</button>
-        </div>
-        <div class="book-details-container ">
-          <p class="book-details">Availability: ${
-            book.availability_status ? "Yes" : "No"
-          }</p>
-          <p class="book-details">Borrowed By: ${
-            book.availability_status
-              ? "None"
-              : book.borrowed_by.borrowed_member.member
-          }</p>
-          <p class="book-details">ISBN:${book.isbn}</p>
-          <button class='delete-book btn btn-danger'>Delete</button>
-        </div>
+      <div class="book-details-container">
+        <h3 class="book-title text-center h3 badge rounded-pill bg-secondary">${
+          book.title
+        }</h3>
+        <p class="book-details">ID: ${book.id}</p>
+        <p class="book-details">Author: ${book.author}</p>
+        <p class="book-details">Genre: ${book.genre}</p>
+        <p class="book-details">ISBN:${book.isbn}</p>
+       
       </div>
-    `;
+      <div class="book-details-container second-col-book-detail">
+        <p class="book-details">Availability: ${
+          book.availability_status ? "Yes" : "No"
+        }</p>
+        <p class="book-details">Borrowed By: ${
+          book.availability_status
+            ? "None"
+            : book.borrowed_by.borrowed_member.member
+        }</p>
+        <p class="book-details">ISBN:${book.isbn}</p>
+        <button class='update-book btn btn-secondary'>Update</button>
+        <button id=${book.id} class='delete-book btn btn-danger'>Delete</button>
+      </div>
+    </div>
+  `;
 
       // Append the book container to the book list container
       bookListContainer.appendChild(bookContainer);
@@ -230,6 +233,21 @@ bookSearch.addEventListener("keyup", (e) => {
       const updateAuthorInput = document.getElementById("updateAuthor");
       const updateGenreInput = document.getElementById("updateGenre");
       const updateISBNInput = document.getElementById("updateISBN");
+
+      const deleteBookButtons = document.querySelectorAll(".btn-danger");
+
+      deleteBookButtons.forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const deleteId = btn.id;
+          console.log(deleteId);
+          await deleteMember(deleteId);
+          updateBookList();
+        });
+      });
+
+      async function deleteMember(deleteId) {
+        await axios.delete(`http://localhost:8000/api/book-list/${deleteId}/`);
+      }
 
       // Function to populate the modal form with book data
       function populateFormWithData(book) {

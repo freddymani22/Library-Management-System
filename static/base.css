@@ -92,14 +92,8 @@ button {
 
 /* Custom CSS for reducing font size of h3 element in medium screen size (col-md) */
 
-@media (min-width: 768px) and (max-width: 991.98px) {
+@media (min-width: 375px) and (max-width: 750.98px) {
   .book-title {
-    font-size: 1rem; /* Set your desired font size for medium screens (col-md) */
+    font-size: 0.5rem; /* Set your desired font size for medium screens (col-md) */
   }
-}
-
-.table-responsive,
-.book-list {
-  max-height: calc(100vh - 200px);
-  overflow-y: auto; /* Enable vertical scroll bar when table content overflows */
 }

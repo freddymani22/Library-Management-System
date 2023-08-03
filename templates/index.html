@@ -3,15 +3,20 @@
 <div class="row mt-4 d-flex justify-content-center chart-data">
   <div class="col-11 col-md-8 d-lg-flex justify-content-between">
     <h3 class="text-left mb-0">Book List</h3>
-    <form class="ms-3 p-2" role="search">
-      <label for="search-book">Search for a book</label>
-      <input
-        id="search-book"
-        class="form-control form-control-dark me-2 book-search"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-      />
+    <form class="ms-3 p-2 book-search-form" role="search">
+      <div class="">
+        <label for="search-book">Search for a book</label>
+        <input
+          id="search-book"
+          class="form-control form-control-dark me-2 book-search"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-success mt-1">Search</button>
+        </div>
+      </div>
     </form>
   </div>
   <div class="col-10 col-lg-8">
@@ -24,6 +29,7 @@
         >
           <thead class="table-head">
             <tr class="bg-warning text-danger table-header">
+              <th>Book-ID</th>
               <th>Book-detail</th>
               <th>Availabity</th>
               <th>Borrow Detail</th>
@@ -35,6 +41,17 @@
         </table>
       </form>
     </div>
+  </div>
+  <div class="form-check form-switch">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      id="flexSwitchCheckChecked"
+      checked
+    />
+    <label class="form-check-label" for="flexSwitchCheckChecked"
+      >Checked switch checkbox input</label
+    >
   </div>
 
   <script src="{% static 'js/index.js' %}"></script>

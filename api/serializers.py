@@ -11,7 +11,6 @@ class MemberSerializer(serializers.ModelSerializer):
         fields = ['id', 'member', 'email', 'latest_book']
 
     def get_latest_book(self, obj):
-
         book_last = BookStatus.objects.filter(
             member=obj.id).filter(returned=False).count()
         if book_last:

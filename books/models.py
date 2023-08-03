@@ -32,7 +32,11 @@ class Genre(models.TextChoices):
 class BookQuerySet(models.QuerySet):
     def search(self, query):
         lookup = Q(title__icontains=query) | Q(
-            author__icontains=query) | Q(genre__icontains=query)
+            author__icontains=query) | Q(genre__icontains=query) | Q(id__icontains=query)
+        if query == 'true':
+            lookup = Q(availability_status=True)
+        elif query == 'false':
+            lookup = Q(availability_status=False)
         return self.filter(lookup)
 
 

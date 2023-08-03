@@ -22,7 +22,7 @@ async function updateMembersList() {
               }</h3>
               <p class="member-details">ID: ${member.id}</p>
               <p class="member-details">Email: ${member.email}</p>
-              <p class="member-details">Latest-borrowed-book: ${
+              <p class="member-details">Borrowed/Not-returned: ${
                 member.latest_book != null ? member.latest_book : "none"
               }</p>
               <div class="member-details-container second-col-book-detail">
@@ -180,7 +180,7 @@ memberSearch.addEventListener("keyup", (e) => {
              
             </div>
               <button class='update-member btn btn-secondary'>Update</button>
-              <button class='delete-member btn btn-danger'>Delete</button>
+              <button class='delete-member btn btn-danger' id=${member.id}>Delete</button>
             </div>
           </div>
         `;
@@ -190,11 +190,24 @@ memberSearch.addEventListener("keyup", (e) => {
       // ... Your existing code ...
 
       const updateMemberButton = document.querySelectorAll(".update-member");
+      const deleteMemberButtons = document.querySelectorAll(".delete-member");
       const modalContainer = document.querySelector(".modal-container");
       const modal = document.querySelector(".modal");
       const updateForm = document.getElementById("updateForm");
       const updateNameInput = document.getElementById("updateName");
       const updateEmailInput = document.getElementById("updateEmail");
+
+      for (let btn of deleteMemberButtons) {
+        btn.addEventListener("click", () => {
+          const deleteId = btn.id;
+          deleteMember(deleteId);
+          searchMember();
+        });
+      }
+
+      async function deleteMember(deleteId) {
+        await axios.delete(`http://localhost:8000/api/member-rud/${deleteId}/`);
+      }
 
       // Function to populate the modal form with book data
       function populateFormWithData(member) {

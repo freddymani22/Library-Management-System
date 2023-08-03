@@ -4,11 +4,10 @@ const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 axios.defaults.headers.common["X-CSRFToken"] = csrfToken;
 
 async function updateBookList() {
-  const res = await axios.get("http://localhost:8000/api/book-list/");
+  const res = await axios.get(`http://localhost:8000/api/book-list/`);
   const data = await res.data;
   console.log(data);
   if (data.length === 0) {
-    console.log("working");
     document
       .querySelector(".chart-data")
       .style.setProperty("display", "none", "important");
@@ -21,12 +20,17 @@ async function updateBookList() {
   tableBody.innerHTML = "";
 
   for (let book of data) {
+    let tdIdElement = document.createElement("td");
+    tdIdElement.textContent = book.id;
     let tdNameElement = document.createElement("td");
     tdNameElement.textContent = book.title;
 
     let tdAvailabilityElement = document.createElement("td");
-    tdAvailabilityElement.textContent = book.availability_status;
-
+    if (book.availability_status) {
+      tdAvailabilityElement.textContent = "✅";
+    } else {
+      tdAvailabilityElement.textContent = "🚫";
+    }
     let tdBorrowedByElement = document.createElement("td");
     if (book.availability_status === false) {
       const selectElement = document.createElement("select");
@@ -95,15 +99,16 @@ async function updateBookList() {
       tdBorrowedByElement.appendChild(selectElement);
     }
     let tdReturnElement = document.createElement("td");
+    const formCheckDiv = document.createElement("div");
+    formCheckDiv.classList.add("form-check", "form-switch");
     const checkbox = document.createElement("input");
-    checkbox.classList.add("return-check");
-
+    checkbox.classList.add("return-check", "form-check-input");
+    checkbox.type = "checkbox";
     if (book.availability_status === false) {
-      checkbox.id = `checkbox-${book.borrowed_by.id}`;
-      checkbox.type = "checkbox";
       checkbox.checked = book.borrowed_by.returned;
       tdReturnElement.appendChild(checkbox);
-
+      formCheckDiv.appendChild(checkbox);
+      tdReturnElement.appendChild(formCheckDiv);
       checkbox.addEventListener("change", async (e) => {
         try {
           e.preventDefault();
@@ -127,14 +132,14 @@ async function updateBookList() {
         updateBookList();
       });
     } else {
-      const checkbox = document.createElement("input");
-      checkbox.id = `checkbox-${book.id}`;
-      checkbox.type = "checkbox";
       checkbox.disabled = true;
-      checkbox.checked = tdReturnElement.appendChild(checkbox);
+      checkbox.checked = true;
+      formCheckDiv.appendChild(checkbox);
+      tdReturnElement.appendChild(formCheckDiv);
     }
 
     let trElement = document.createElement("tr");
+    trElement.appendChild(tdIdElement);
     trElement.appendChild(tdNameElement);
     trElement.appendChild(tdAvailabilityElement);
     trElement.appendChild(tdBorrowedByElement);
@@ -144,13 +149,26 @@ async function updateBookList() {
 }
 
 updateBookList();
+let timeoutId;
 
+const bookSearchForm = document.querySelector(".book-search-form");
 const bookSearch = document.querySelector(".book-search");
+function debounceSearchBook(searchValue) {
+  clearTimeout(timeoutId);
+  // Only trigger the search if searchValue is greater than 3 characters
+  if (searchValue.length > 5) {
+    timeoutId = setTimeout(() => {
+      searchBook(searchValue);
+    }, 5000);
+  }
+}
 
-bookSearch.addEventListener("keyup", (e) => {
+bookSearchForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const searchValue = bookSearch.value;
 
+  const searchValue = bookSearch.value;
+  console.log(searchValue);
+  debounceSearchBook(searchValue);
   async function searchBook() {
     const res = await axios.get(
       `http://localhost:8000/api/book-search/?q=${searchValue}`
@@ -160,17 +178,21 @@ bookSearch.addEventListener("keyup", (e) => {
     document
       .querySelector(".chart-data")
       .style.setProperty("display", "flex", "important");
-
     const tableBody = document.querySelector(".table-body");
     tableBody.innerHTML = "";
 
     for (let book of data) {
+      let tdIdElement = document.createElement("td");
+      tdIdElement.textContent = book.id;
       let tdNameElement = document.createElement("td");
       tdNameElement.textContent = book.title;
 
       let tdAvailabilityElement = document.createElement("td");
-      tdAvailabilityElement.textContent = book.availability_status;
-
+      if (book.availability_status) {
+        tdAvailabilityElement.textContent = "✅";
+      } else {
+        tdAvailabilityElement.textContent = "🚫";
+      }
       let tdBorrowedByElement = document.createElement("td");
       if (book.availability_status === false) {
         const selectElement = document.createElement("select");
@@ -190,7 +212,6 @@ bookSearch.addEventListener("keyup", (e) => {
         selectElement.appendChild(option);
 
         tdBorrowedByElement.appendChild(selectElement);
-        book.borrowed_by.borrowed_member.member;
       } else if (book.availability_status === true) {
         const memberList = await axios.get(
           "http://localhost:8000/api/member-list/"
@@ -226,6 +247,7 @@ bookSearch.addEventListener("keyup", (e) => {
             "http://localhost:8000/api/book-status/",
             data
           );
+          searchBook();
           // selectElement.disabled = true;
           // tdAvailabilityElement.textContent = false;
           // const ids = book.borrowed_by.id;
@@ -234,21 +256,22 @@ bookSearch.addEventListener("keyup", (e) => {
           // returnCheck.disabled = false;
           // returnCheck.checked = false;
           // returnCheck.addEventListener("click", () => {});
-          searchBook();
+          // searchBook();
         });
 
         tdBorrowedByElement.appendChild(selectElement);
       }
       let tdReturnElement = document.createElement("td");
+      const formCheckDiv = document.createElement("div");
+      formCheckDiv.classList.add("form-check", "form-switch");
       const checkbox = document.createElement("input");
-      checkbox.classList.add("return-check");
-
+      checkbox.classList.add("return-check", "form-check-input");
+      checkbox.type = "checkbox";
       if (book.availability_status === false) {
-        checkbox.id = `checkbox-${book.borrowed_by.id}`;
-        checkbox.type = "checkbox";
         checkbox.checked = book.borrowed_by.returned;
         tdReturnElement.appendChild(checkbox);
-
+        formCheckDiv.appendChild(checkbox);
+        tdReturnElement.appendChild(formCheckDiv);
         checkbox.addEventListener("change", async (e) => {
           try {
             e.preventDefault();
@@ -263,22 +286,23 @@ bookSearch.addEventListener("keyup", (e) => {
             );
             // Update the checkbox state after the successful response
             checkbox.disabled = true;
-
+            searchBook();
             // Disable the checkbox after returning the book
           } catch (error) {
             console.error("Error updating book status:", error);
           }
 
-          searchBook();
+          // searchBook();
         });
       } else {
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
         checkbox.disabled = true;
-        checkbox.checked = tdReturnElement.appendChild(checkbox);
+        checkbox.checked = true;
+        formCheckDiv.appendChild(checkbox);
+        tdReturnElement.appendChild(formCheckDiv);
       }
 
       let trElement = document.createElement("tr");
+      trElement.appendChild(tdIdElement);
       trElement.appendChild(tdNameElement);
       trElement.appendChild(tdAvailabilityElement);
       trElement.appendChild(tdBorrowedByElement);
