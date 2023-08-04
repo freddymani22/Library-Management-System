@@ -15,7 +15,7 @@ async function updateBookList() {
       const bookContainer = document.createElement("div");
       bookContainer.classList.add("col-10");
       bookContainer.innerHTML = `
-      <div class="book-container card text-white bg-primary text-center d-flex justify-content-around">
+      <div class="book-container card text-white bg-dark text-center d-flex justify-content-around">
             <div class="book-details-container">
               <h3 class="book-title text-center h3 badge rounded-pill bg-secondary">${
                 book.title
@@ -23,7 +23,6 @@ async function updateBookList() {
               <p class="book-details">ID: ${book.id}</p>
               <p class="book-details">Author: ${book.author}</p>
               <p class="book-details">Genre: ${book.genre}</p>
-              <p class="book-details">Genre: ${book.published_year}</p>
               <p class="book-details">ISBN:${book.isbn}</p>
              
             </div>
@@ -197,7 +196,7 @@ bookSearch.addEventListener("keyup", (e) => {
       const bookContainer = document.createElement("div");
       bookContainer.classList.add("col-10");
       bookContainer.innerHTML = `
-      <div class="book-container card text-white bg-primary text-center d-flex justify-content-around">
+      <div class="book-container card text-white bg-dark text-center d-flex justify-content-around">
       <div class="book-details-container">
         <h3 class="book-title text-center h3 badge rounded-pill bg-secondary">${
           book.title

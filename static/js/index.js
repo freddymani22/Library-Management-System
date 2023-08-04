@@ -29,7 +29,7 @@ async function updateBookList() {
     if (book.availability_status) {
       tdAvailabilityElement.textContent = "✅";
     } else {
-      tdAvailabilityElement.textContent = "🚫";
+      tdAvailabilityElement.textContent = "⛔";
     }
     let tdBorrowedByElement = document.createElement("td");
     if (book.availability_status === false) {
@@ -191,7 +191,7 @@ bookSearchForm.addEventListener("submit", (e) => {
       if (book.availability_status) {
         tdAvailabilityElement.textContent = "✅";
       } else {
-        tdAvailabilityElement.textContent = "🚫";
+        tdAvailabilityElement.textContent = "⛔";
       }
       let tdBorrowedByElement = document.createElement("td");
       if (book.availability_status === false) {

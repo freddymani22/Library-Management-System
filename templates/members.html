@@ -5,14 +5,16 @@
     <form
       action=""
       method="POST"
-      class="d-flex member-add-form flex-column align-items-center"
+      class="d-flex card text-white bg-primary p-3 member-add-form flex-column align-items-center"
     >
       {% csrf_token %} {{form }}
       <button class="mt-2">Submit</button>
     </form>
   </div>
 
-  <div class="col-11 col-md-8 d-lg-flex justify-content-between">
+  <div
+    class="col-11 col-md-8 d-lg-flex justify-content-between align-items-center"
+  >
     <h3 class="text-left mb-0">Member List</h3>
     <form class="ms-3 p-2" role="search">
       <label for="search-member">Search for a Member</label>
@@ -20,7 +22,7 @@
         id="search-member"
         class="form-control form-control-dark me-2 member-search"
         type="search"
-        placeholder="Search"
+        placeholder="Eg: 'ID', 'name'"
         aria-label="Search"
       />
     </form>

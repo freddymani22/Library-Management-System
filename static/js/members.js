@@ -23,8 +23,8 @@ async function updateMembersList() {
     <p class="member-details">ID: ${member.id}</p>
     <p class="member-details">Email: ${member.email}</p>
     <div class="member-details-container second-col-book-detail">
-      <h4>Borrowed Books:</h4>
-      <ol>
+    <h4 class='badge p-2 rounded-pill bg-light text-dark'>BORROWED BOOKS</h4>
+      <ul>
         ${
           member.borrowed_book_list != null
             ? member.borrowed_book_list
@@ -32,7 +32,7 @@ async function updateMembersList() {
                 .join("")
             : "<li>No books borrowed.</li>"
         }
-      </ol>
+      </ul>
     </div>
     <button class='update-member btn btn-secondary'>Update</button>
     <button class='delete-member btn btn-danger' id=${member.id}>Delete</button>
@@ -182,8 +182,8 @@ memberSearch.addEventListener("keyup", (e) => {
         <p class="member-details">ID: ${member.id}</p>
         <p class="member-details">Email: ${member.email}</p>
         <div class="member-details-container second-col-book-detail">
-          <h4>Borrowed Books:</h4>
-          <ol class="list-unstyled">
+        <h4 class='badge p-2 rounded-pill bg-light text-dark'>BORROWED BOOKS</h4>
+          <ul class="list-unstyled">
             ${
               member.borrowed_book_list != null
                 ? member.borrowed_book_list
@@ -191,7 +191,7 @@ memberSearch.addEventListener("keyup", (e) => {
                     .join("")
                 : "<li>No books borrowed.</li>"
             }
-          </ol>
+          </ul>
         </div>
         <button class='update-member btn btn-secondary'>Update</button>
         <button class='delete-member btn btn-danger' id=${

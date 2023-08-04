@@ -1,8 +1,13 @@
 /* CSS for book container */
 
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
 body {
   max-height: 100vh;
-  font-family: monospace;
 }
 
 .book-container,
@@ -105,4 +110,5 @@ button {
 
 ul {
   list-style-position: inside;
+  list-style-type: circle;
 }
